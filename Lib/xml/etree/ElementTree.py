@@ -1539,7 +1539,7 @@ class XMLParser:
         # underscored names are provided for compatibility only
         self.parser = self._parser = parser
         self.target = self._target = target
-        self._error = expat.error
+        self._error = getattr(expat, 'error', Exception)
         self._names = {} # name memo cache
         # main callbacks
         parser.DefaultHandlerExpand = self._default
