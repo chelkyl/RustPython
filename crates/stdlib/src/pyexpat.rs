@@ -317,19 +317,15 @@ mod _pyexpat {
                     Ok(XmlEvent::StartElement {
                         name, attributes, ..
                     }) => {
-                        let dict = vm.ctx.new_dict();
+                        let mut attr_list: Vec<PyObjectRef> = Vec::new();
                         for attribute in attributes {
                             let attr_name = self.make_name(&attribute.name);
-                            dict.set_item(
-                                attr_name.as_str(),
-                                vm.ctx.new_str(attribute.value).into(),
-                                vm,
-                            )
-                            .unwrap();
+                            attr_list.push(vm.ctx.new_str(attr_name).into());
+                            attr_list.push(vm.ctx.new_str(attribute.value).into());
                         }
 
                         let name_str = PyStr::from(self.make_name(&name)).into_ref(&vm.ctx);
-                        invoke_handler(vm, &self.start_element, (name_str, dict));
+                        invoke_handler(vm, &self.start_element, (name_str, vm.ctx.new_list(attr_list)));
                     }
                     Ok(XmlEvent::EndElement { name, .. }) => {
                         let name_str = PyStr::from(self.make_name(&name)).into_ref(&vm.ctx);
