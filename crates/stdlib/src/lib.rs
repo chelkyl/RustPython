@@ -88,7 +88,12 @@ mod ssl;
 #[cfg(all(feature = "ssl-openssl", feature = "ssl-rustls"))]
 compile_error!("features \"ssl-openssl\" and \"ssl-rustls\" are mutually exclusive");
 
-#[cfg(all(unix, not(target_os = "redox"), not(target_os = "ios")))]
+#[cfg(all(
+    unix,
+    not(target_os = "redox"),
+    not(target_os = "ios"),
+    not(target_arch = "wasm32",)
+))]
 mod termios;
 #[cfg(not(any(
     target_os = "android",
@@ -173,7 +178,10 @@ pub fn stdlib_module_defs(ctx: &Context) -> Vec<&'static builtins::PyModuleDef> 
         suggestions::module_def(ctx),
         #[cfg(all(unix, not(target_os = "redox")))]
         syslog::module_def(ctx),
-        #[cfg(all(unix, not(any(target_os = "ios", target_os = "redox"))))]
+        #[cfg(all(
+            unix,
+            not(any(target_os = "ios", target_os = "redox", target_arch = "wasm32"))
+        ))]
         termios::module_def(ctx),
         #[cfg(feature = "tkinter")]
         tkinter::module_def(ctx),

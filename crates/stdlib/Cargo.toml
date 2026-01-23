@@ -100,7 +100,7 @@ chrono.workspace = true
 mac_address = "1.1.3"
 uuid = { version = "1.19.0", features = ["v1"] }
 
-[target.'cfg(all(unix, not(target_os = "redox"), not(target_os = "ios")))'.dependencies]
+[target.'cfg(all(unix, not(any(target_os = "redox", target_os = "ios", target_arch = "wasm32"))))'.dependencies]
 termios = "0.3.3"
 
 [target.'cfg(unix)'.dependencies]
