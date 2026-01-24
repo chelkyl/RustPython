@@ -172,7 +172,7 @@ junction = "1.4.1"
 libc = "0.2.180"
 libffi = "5"
 log = "0.4.29"
-nix = { version = "0.30", features = ["fs", "user", "process", "term", "time", "signal", "ioctl", "socket", "sched", "zerocopy", "dir", "hostname", "net", "poll"] }
+nix = { git = "https://github.com/chelkyl/nix.git", rev = "66d245ff87aaae9a78a3e507b70eb8ecd9bf2bc6", features = ["fs", "user", "process", "term", "time", "signal", "ioctl", "socket", "sched", "zerocopy", "dir", "hostname", "net", "poll"] }
 malachite-bigint = "0.9"
 malachite-q = "0.9"
 malachite-base = "0.9"
