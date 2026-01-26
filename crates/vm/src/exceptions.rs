@@ -1207,7 +1207,7 @@ impl<C> ToPyException for widestring::error::ContainsNul<C> {
     }
 }
 
-#[cfg(any(unix, windows, target_os = "wasi"))]
+#[cfg(any(unix, windows, target_os = "wasi", target_os = "emscripten"))]
 pub(crate) fn errno_to_exc_type(errno: i32, vm: &VirtualMachine) -> Option<&'static Py<PyType>> {
     use crate::stdlib::errno::errors;
     let excs = &vm.ctx.exceptions;
@@ -1236,7 +1236,7 @@ pub(crate) fn errno_to_exc_type(errno: i32, vm: &VirtualMachine) -> Option<&'sta
     }
 }
 
-#[cfg(all(target_arch = "wasm32", not(target_os = "wasi")))]
+#[cfg(all(target_arch = "wasm32", not(any(target_os = "wasi", target_os = "emscripten"))))]
 pub(crate) fn errno_to_exc_type(_errno: i32, _vm: &VirtualMachine) -> Option<&'static Py<PyType>> {
     None
 }

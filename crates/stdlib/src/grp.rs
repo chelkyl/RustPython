@@ -83,6 +83,7 @@ mod grp {
         Ok(GroupData::from_unistd_group(group, vm))
     }
 
+    #[cfg(not(target_os = "emscripten"))]
     #[pyfunction]
     fn getgrall(vm: &VirtualMachine) -> PyResult<Vec<PyObjectRef>> {
         // setgrent, getgrent, etc are not thread safe. Could use fgetgrent_r, but this is easier

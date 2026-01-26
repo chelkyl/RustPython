@@ -28,7 +28,7 @@ mod fcntl {
     #[pyattr]
     use libc::{F_DUPFD, F_DUPFD_CLOEXEC, F_GETLK, F_SETLK, F_SETLKW};
 
-    #[cfg(not(any(target_os = "wasi", target_os = "redox")))]
+    #[cfg(not(any(target_os = "wasi", target_os = "emscripten", target_os = "redox")))]
     #[pyattr]
     use libc::{F_GETOWN, F_RDLCK, F_SETOWN, F_UNLCK, F_WRLCK, LOCK_EX, LOCK_NB, LOCK_SH, LOCK_UN};
 
@@ -159,7 +159,7 @@ mod fcntl {
     }
 
     // XXX: at the time of writing, wasi and redox don't have the necessary constants
-    #[cfg(not(any(target_os = "wasi", target_os = "redox")))]
+    #[cfg(not(any(target_os = "wasi", target_os = "emscripten", target_os = "redox")))]
     #[pyfunction]
     fn lockf(
         io::Fildes(fd): io::Fildes,

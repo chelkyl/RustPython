@@ -41,6 +41,7 @@ mod locale;
 mod _opcode;
 mod math;
 #[cfg(any(unix, windows))]
+#[cfg(not(target_os = "emscripten"))]
 mod mmap;
 mod pyexpat;
 mod pystruct;
@@ -141,6 +142,7 @@ pub fn stdlib_module_defs(ctx: &Context) -> Vec<&'static builtins::PyModuleDef> 
         math::module_def(ctx),
         md5::module_def(ctx),
         #[cfg(any(unix, windows))]
+        #[cfg(not(target_os = "emscripten"))]
         mmap::module_def(ctx),
         #[cfg(not(target_arch = "wasm32"))]
         multiprocessing::module_def(ctx),

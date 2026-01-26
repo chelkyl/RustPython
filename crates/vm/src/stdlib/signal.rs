@@ -592,7 +592,7 @@ pub(crate) mod _signal {
         Ok(set.into())
     }
 
-    #[cfg(unix)]
+    #[cfg(all(unix, not(target_os = "emscripten")))]
     #[pyfunction]
     fn pthread_sigmask(
         how: i32,

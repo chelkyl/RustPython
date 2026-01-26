@@ -446,7 +446,7 @@ mod decl {
         let freq = unsafe { libc::sysconf(libc::_SC_CLK_TCK) };
 
         Ok(Duration::from_nanos(
-            time_muldiv(t.tms_utime, SEC_TO_NS, freq) + time_muldiv(t.tms_stime, SEC_TO_NS, freq),
+            time_muldiv(t.tms_utime.into(), SEC_TO_NS, freq.into()) + time_muldiv(t.tms_stime.into(), SEC_TO_NS, freq.into()),
         ))
     }
 

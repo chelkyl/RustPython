@@ -352,7 +352,7 @@ fn exec_inner(
     }
 
     if let Some(_groups) = procargs.extra_groups {
-        #[cfg(not(any(target_os = "ios", target_os = "macos", target_os = "redox")))]
+        #[cfg(not(any(target_os = "ios", target_os = "macos", target_os = "redox", target_os = "emscripten")))]
         unistd::setgroups(_groups)?;
     }
 
@@ -421,7 +421,7 @@ impl KeepFds<'_> {
 }
 
 fn close_fds(keep: KeepFds<'_>) {
-    #[cfg(not(target_os = "redox"))]
+    #[cfg(not(any(target_os = "redox", target_os = "emscripten")))]
     if close_dir_fds(keep).is_ok() {
         return;
     }
@@ -432,7 +432,7 @@ fn close_fds(keep: KeepFds<'_>) {
     close_fds_brute_force(keep)
 }
 
-#[cfg(not(target_os = "redox"))]
+#[cfg(not(any(target_os = "redox", target_os = "emscripten")))]
 fn close_dir_fds(keep: KeepFds<'_>) -> nix::Result<()> {
     use nix::{dir::Dir, fcntl::OFlag};
 

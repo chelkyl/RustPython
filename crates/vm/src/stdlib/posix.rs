@@ -820,7 +820,7 @@ pub mod module {
         }
     }
 
-    #[cfg(not(target_os = "redox"))]
+    #[cfg(not(any(target_os = "redox", target_os = "emscripten")))]
     #[pyfunction]
     fn sched_get_priority_max(policy: i32, vm: &VirtualMachine) -> PyResult<i32> {
         let max = unsafe { libc::sched_get_priority_max(policy) };
@@ -831,7 +831,7 @@ pub mod module {
         }
     }
 
-    #[cfg(not(target_os = "redox"))]
+    #[cfg(not(any(target_os = "redox", target_os = "emscripten")))]
     #[pyfunction]
     fn sched_get_priority_min(policy: i32, vm: &VirtualMachine) -> PyResult<i32> {
         let min = unsafe { libc::sched_get_priority_min(policy) };
@@ -1503,7 +1503,7 @@ pub mod module {
     }
 
     // cfg from nix
-    #[cfg(not(any(target_os = "ios", target_os = "macos", target_os = "redox")))]
+    #[cfg(not(any(target_os = "ios", target_os = "macos", target_os = "redox", target_os = "emscripten")))]
     #[pyfunction]
     fn setgroups(
         group_ids: crate::function::ArgIterable<Gid>,
@@ -1863,6 +1863,7 @@ pub mod module {
         }
     }
 
+    #[cfg(not(target_os = "emscripten"))]
     #[pyfunction]
     fn get_terminal_size(
         fd: OptionalArg<i32>,
